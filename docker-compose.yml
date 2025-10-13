@@ -1,0 +1,65 @@
+volumes:
+  rabbit1_data:
+  rabbit2_data:
+  rabbit3_data:
+
+services:
+  rabbit1:
+    image: rabbitmq:4-management
+    hostname: rabbit1
+    container_name: rabbit1
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin123"
+    volumes:
+      - rabbit1_data:/var/lib/rabbitmq
+      - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
+    ports:
+      # expongo 15672 del nodo1 por si querés entrar directo
+      - "15672:15672"
+      - "5673:5672" # opcional: acceso directo a rabbit1 sin LB
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  rabbit2:
+    image: rabbitmq:4-management
+    hostname: rabbit2
+    container_name: rabbit2
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin123"
+    volumes:
+      - rabbit2_data:/var/lib/rabbitmq
+      - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
+    depends_on:
+      rabbit1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    restart: unless-stopped
+
+  rabbit3:
+    image: rabbitmq:4-management
+    hostname: rabbit3
+    container_name: rabbit3
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin123"
+    volumes:
+      - rabbit3_data:/var/lib/rabbitmq
+      - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
+    depends_on:
+      rabbit1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    restart: unless-stopped
