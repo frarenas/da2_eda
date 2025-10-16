@@ -1,1 +1,268 @@
-{"rabbit_version":"4.1.4","rabbitmq_version":"4.1.4","product_name":"RabbitMQ","product_version":"4.1.4","rabbitmq_definition_format":"cluster","original_cluster_name":"rabbit@0bdfa7e131df","explanation":"Definitions of cluster 'rabbit@0bdfa7e131df'","users":[{"name":"guest","password_hash":"YiHnrpT9JkBTcJFmYBy9cxBsF6K38lsxpMdRBdqEVWg4CLYK","hashing_algorithm":"rabbit_password_hashing_sha256","tags":["administrator"],"limits":{}}],"vhosts":[{"name":"/","description":"Default virtual host","metadata":{"description":"Default virtual host","tags":[],"default_queue_type":"classic"},"tags":[]}],"permissions":[{"user":"guest","vhost":"/","configure":".*","write":".*","read":".*"}],"topic_permissions":[],"parameters":[],"global_parameters":[{"name":"cluster_tags","value":[]},{"name":"internal_cluster_id","value":"rabbitmq-cluster-id-f49Vq7Lin7I2aYAXoIM2hA"}],"policies":[],"queues":[{"name":"emergencias_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange":"citypass_dlx_exchange","x-dead-letter-routing-key":"emergencias.dlx","x-max-length":1000,"x-message-ttl":5000,"x-overflow":"drop-head","x-queue-type":"classic"}},{"name":"analytics_dlx_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-queue-type":"classic"}},{"name":"cultura_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange":"citypass_dlx_exchange","x-dead-letter-routing-key":"cultura.dlx","x-max-length":1000,"x-message-ttl":5000,"x-overflow":"drop-head","x-queue-type":"classic"}},{"name":"residuos_dlx_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-queue-type":"classic"}},{"name":"analytics_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange":"citypass_dlx_exchange","x-dead-letter-routing-key":"analytics.dlx","x-max-length":1000,"x-message-ttl":5000,"x-overflow":"drop-head","x-queue-type":"classic"}},{"name":"emergencias_dlx_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-queue-type":"classic"}},{"name":"movilidad_dlx_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-queue-type":"classic"}},{"name":"residuos_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange":"citypass_dlx_exchange","x-dead-letter-routing-key":"residuos.dlx","x-max-length":1000,"x-message-ttl":5000,"x-overflow":"drop-head","x-queue-type":"classic"}},{"name":"cultura_dlx_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-queue-type":"classic"}},{"name":"reclamos_dlx_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-queue-type":"classic"}},{"name":"movilidad_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange":"citypass_dlx_exchange","x-dead-letter-routing-key":"movilidad.dlx","x-max-length":1000,"x-message-ttl":5000,"x-overflow":"drop-head","x-queue-type":"classic"}},{"name":"reclamos_queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange":"citypass_dlx_exchange","x-dead-letter-routing-key":"reclamos.dlx","x-max-length":1000,"x-message-ttl":5000,"x-overflow":"drop-head","x-queue-type":"classic"}}],"exchanges":[{"name":"citypass_dlx_exchange","vhost":"/","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{}},{"name":"citypass_exchange","vhost":"/","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{}}],"bindings":[{"source":"citypass_dlx_exchange","vhost":"/","destination":"analytics_dlx_queue","destination_type":"queue","routing_key":"analytics.dlx","arguments":{}},{"source":"citypass_dlx_exchange","vhost":"/","destination":"cultura_dlx_queue","destination_type":"queue","routing_key":"cultura.dlx","arguments":{}},{"source":"citypass_dlx_exchange","vhost":"/","destination":"emergencias_dlx_queue","destination_type":"queue","routing_key":"emergencias.dlx","arguments":{}},{"source":"citypass_dlx_exchange","vhost":"/","destination":"movilidad_dlx_queue","destination_type":"queue","routing_key":"movilidad.dlx","arguments":{}},{"source":"citypass_dlx_exchange","vhost":"/","destination":"reclamos_dlx_queue","destination_type":"queue","routing_key":"reclamos.dlx","arguments":{}},{"source":"citypass_dlx_exchange","vhost":"/","destination":"residuos_dlx_queue","destination_type":"queue","routing_key":"residuos.dlx","arguments":{}}]}
+{
+  "rabbit_version": "4.1.4",
+  "rabbitmq_version": "4.1.4",
+  "product_name": "RabbitMQ",
+  "product_version": "4.1.4",
+  "rabbitmq_definition_format": "cluster",
+  "original_cluster_name": "rabbit@0bdfa7e131df",
+  "explanation": "Definitions of cluster 'rabbit@0bdfa7e131df'",
+  "users": [
+    { "name": "admin", "password": "admin", "tags": ["administrator"], "limits": {} },
+    { "name": "reclamos", "password": "reclamos", "tags": [], "limits": {} },
+    { "name": "residuos", "password": "residuos", "tags": [], "limits": {} },
+    { "name": "analitica", "password": "analitica", "tags": [], "limits": {} },
+    { "name": "cultura", "password": "cultura", "tags": [], "limits": {} },
+    { "name": "emergencia", "password": "emergencia", "tags": [], "limits": {} },
+    { "name": "movilidad", "password": "movilidad", "tags": [], "limits": {} }
+  ],
+  "vhosts": [
+    {
+      "name": "/",
+      "description": "Default virtual host",
+      "metadata": {
+        "description": "Default virtual host",
+        "tags": [],
+        "default_queue_type": "quorum"
+      },
+      "tags": []
+    }
+  ],
+    "permissions": [
+    { "user": "admin", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
+    { "user": "reclamos", "vhost": "/", "configure": "", "write": ".*", "read": ".*" },
+    { "user": "residuos", "vhost": "/", "configure": "", "write": ".*", "read": ".*" },
+    { "user": "analitica", "vhost": "/", "configure": "", "write": ".*", "read": ".*" },
+    { "user": "cultura", "vhost": "/", "configure": "", "write": ".*", "read": ".*" },
+    { "user": "emergencia", "vhost": "/", "configure": "", "write": ".*", "read": ".*" },
+    { "user": "movilidad", "vhost": "/", "configure": "", "write": ".*", "read": ".*" }
+    ],
+  "topic_permissions": [],
+  "parameters": [],
+  "global_parameters": [
+    { "name": "cluster_tags", "value": [] },
+    { "name": "internal_cluster_id", "value": "rabbitmq-cluster-id-f49Vq7Lin7I2aYAXoIM2hA" }
+  ],
+  "policies": [],
+  "queues": [
+    {
+      "name": "emergencias_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx_exchange",
+        "x-dead-letter-routing-key": "emergencias.dlx",
+        "x-max-length": 1000,
+        "x-message-ttl": 5000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "analytics_dlx_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "cultura_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx_exchange",
+        "x-dead-letter-routing-key": "cultura.dlx",
+        "x-max-length": 1000,
+        "x-message-ttl": 5000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "residuos_dlx_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "analytics_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx_exchange",
+        "x-dead-letter-routing-key": "analytics.dlx",
+        "x-max-length": 1000,
+        "x-message-ttl": 5000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "emergencias_dlx_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "movilidad_dlx_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "residuos_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx_exchange",
+        "x-dead-letter-routing-key": "residuos.dlx",
+        "x-max-length": 1000,
+        "x-message-ttl": 5000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "cultura_dlx_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "reclamos_dlx_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "movilidad_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx_exchange",
+        "x-dead-letter-routing-key": "movilidad.dlx",
+        "x-max-length": 1000,
+        "x-message-ttl": 5000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    },
+    {
+      "name": "reclamos_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx_exchange",
+        "x-dead-letter-routing-key": "reclamos.dlx",
+        "x-max-length": 1000,
+        "x-message-ttl": 5000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum",
+        "x-quorum-initial-group-size": 3
+      }
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "citypass_dlx_exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "citypass_exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "citypass_dlx_exchange",
+      "vhost": "/",
+      "destination": "analytics_dlx_queue",
+      "destination_type": "queue",
+      "routing_key": "analytics.dlx",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx_exchange",
+      "vhost": "/",
+      "destination": "cultura_dlx_queue",
+      "destination_type": "queue",
+      "routing_key": "cultura.dlx",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx_exchange",
+      "vhost": "/",
+      "destination": "emergencias_dlx_queue",
+      "destination_type": "queue",
+      "routing_key": "emergencias.dlx",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx_exchange",
+      "vhost": "/",
+      "destination": "movilidad_dlx_queue",
+      "destination_type": "queue",
+      "routing_key": "movilidad.dlx",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx_exchange",
+      "vhost": "/",
+      "destination": "reclamos_dlx_queue",
+      "destination_type": "queue",
+      "routing_key": "reclamos.dlx",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx_exchange",
+      "vhost": "/",
+      "destination": "residuos_dlx_queue",
+      "destination_type": "queue",
+      "routing_key": "residuos.dlx",
+      "arguments": {}
+    }
+  ]
+}
