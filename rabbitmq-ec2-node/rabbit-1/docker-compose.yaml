@@ -14,14 +14,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    extra_hosts:
-      - "rabbit1:10.0.14.47"
-      - "rabbit2:10.0.24.90"
-      - "rabbit3:10.0.46.242"
-      # Opcionalmente también los FQDN (recomendado):
-      - "ip-10-0-14-47.ec2.internal:10.0.14.47"
-      - "ip-10-0-24-90.ec2.internal:10.0.24.90"
-      - "ip-10-0-46-242.ec2.internal:10.0.46.242"
     restart: unless-stopped
 
 volumes:
