@@ -1,0 +1,16 @@
+services:
+  rabbit3:
+    image: rabbitmq:4-management
+    hostname: rabbit3
+    container_name: rabbit
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
+    volumes:
+      - /var/lib/rabbitmq:/var/lib/rabbitmq
+      - ../rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ../definitions.json:/etc/rabbitmq/definitions.json:ro
+    extra_hosts:
+      - "rabbit1:ip-10-0-14-47.ec2.internal"
+      - "rabbit2:ip-10-0-24-90.ec2.internal"
+      - "rabbit3:ip-10-0-46-242.ec2.internal"
+    restart: unless-stopped
