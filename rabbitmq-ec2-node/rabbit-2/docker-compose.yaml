@@ -7,9 +7,6 @@ services:
       RABBITMQ_USE_LONGNAME: "true"
       RABBITMQ_NODENAME: "rabbit@ip-10-0-24-90.ec2.internal"
       RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
-      # Si tu rabbitmq.conf no carga definitions, podés forzarlo así:
-      # RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: >-
-      #   -rabbitmq_management load_definitions "/etc/rabbitmq/definitions.json"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - ../definitions.json:/etc/rabbitmq/definitions.json:ro
@@ -25,3 +22,6 @@ services:
       - "ip-10-0-24-90.ec2.internal:10.0.24.90"
       - "ip-10-0-46-242.ec2.internal:10.0.46.242"
     restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
