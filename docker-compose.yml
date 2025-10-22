@@ -3,6 +3,9 @@ volumes:
   rabbit2_data:
   rabbit3_data:
 
+networks:
+  rabbitmq_net: {}   # <-- definir la red
+
 services:
   rabbit1:
     image: rabbitmq:4-management
@@ -17,12 +20,14 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
-      - "15692:15692"
+      - "15692:15692"   # /metrics
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 5s
       timeout: 3s
       retries: 30
+    networks:
+      - rabbitmq_net     # <-- conectar a la red
 
   rabbit2:
     image: rabbitmq:4-management
@@ -42,6 +47,8 @@ services:
       - rabbit1
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    networks:
+      - rabbitmq_net
 
   rabbit3:
     image: rabbitmq:4-management
@@ -61,6 +68,8 @@ services:
       - rabbit1
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    networks:
+      - rabbitmq_net
 
   prometheus:
     image: prom/prometheus
