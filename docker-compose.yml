@@ -6,8 +6,8 @@ volumes:
 services:
   rabbit1:
     image: rabbitmq:4-management
-    hostname: rabbit1
     container_name: rabbit1
+    hostname: rabbit1
     environment:
       RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
     volumes:
@@ -15,9 +15,9 @@ services:
       - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
       - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
     ports:
-      # expongo 15672 del nodo1 por si querés entrar directo
       - "15672:15672"
-      - "5672:5672" # opcional: acceso directo a rabbit1 sin LB
+      - "5672:5672"
+      - "15692:15692"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 5s
@@ -26,34 +26,62 @@ services:
 
   rabbit2:
     image: rabbitmq:4-management
-    hostname: rabbit2
     container_name: rabbit2
+    hostname: rabbit2
     environment:
       RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
     volumes:
       - rabbit2_data:/var/lib/rabbitmq
       - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
       - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    ports:
+      - "15673:15672"
+      - "5673:5672"
+      - "15693:15692"
     depends_on:
-      rabbit1:
-        condition: service_healthy
+      - rabbit1
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-    restart: unless-stopped
 
   rabbit3:
     image: rabbitmq:4-management
-    hostname: rabbit3
     container_name: rabbit3
+    hostname: rabbit3
     environment:
       RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
     volumes:
       - rabbit3_data:/var/lib/rabbitmq
       - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
       - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    ports:
+      - "15674:15672"
+      - "5674:5672"
+      - "15694:15692"
     depends_on:
-      rabbit1:
-        condition: service_healthy
+      - rabbit1
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus-config:/etc/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - rabbitmq_net
+    depends_on:
+      - rabbit1
+      - rabbit2
+      - rabbit3
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - rabbitmq_net
+    depends_on:
+      - prometheus

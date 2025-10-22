@@ -4,56 +4,70 @@
   "product_name": "RabbitMQ",
   "product_version": "4.1.4",
   "rabbitmq_definition_format": "cluster",
-  "original_cluster_name": "rabbit@3252d50caea8",
-  "explanation": "Definitions of cluster 'rabbit@3252d50caea8'",
+  "original_cluster_name": "rabbit@rabbit1",
+  "explanation": "Definitions of cluster 'rabbit@rabbit1'",
   "users": [
     {
       "name": "user_cultura",
       "password_hash": "Yk0DA4BOQ2u3i4gFQCPJfiV5wG01iDPxUWbzioVfxwxp45Nw",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ["None"],
+      "tags": [
+        "None"
+      ],
       "limits": {}
     },
     {
       "name": "guest",
       "password_hash": "YiHnrpT9JkBTcJFmYBy9cxBsF6K38lsxpMdRBdqEVWg4CLYK",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ["administrator"],
+      "tags": [
+        "administrator"
+      ],
       "limits": {}
     },
     {
       "name": "user_reclamos",
       "password_hash": "CC3yMLx6jz0gVMvRRbSeo07j/3wbJCZbxiUTfyMroIbTW4Ch",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ["None"],
+      "tags": [
+        "None"
+      ],
       "limits": {}
     },
     {
       "name": "user_movilidad",
       "password_hash": "oGJtguaCc0HR0TlZnd4Kn+as5MKNxWpSr2u/pad5iEt/OlV2",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ["None"],
+      "tags": [
+        "None"
+      ],
       "limits": {}
     },
     {
       "name": "user_emergencias",
       "password_hash": "c+jgKteRqfxvGe0nt/eEtd9+H2cmgyvKNkovf/GnsG9SQZx3",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ["None"],
+      "tags": [
+        "None"
+      ],
       "limits": {}
     },
     {
       "name": "user_analitica",
       "password_hash": "GDwVBSRl0Bf7wVu+GudeN0kqTpUmWCumxNycrCD4f+QFksLl",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ["None"],
+      "tags": [
+        "None"
+      ],
       "limits": {}
     },
     {
       "name": "user_residuos",
       "password_hash": "s9n0Dd/2JxEpKZja2otrophg4n4M84Lst/s3Holr76Sv7OAO",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ["None"],
+      "tags": [
+        "None"
+      ],
       "limits": {}
     }
   ],
@@ -70,41 +84,225 @@
     }
   ],
   "permissions": [
-    { "user": "user_emergencias", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
-    { "user": "user_movilidad", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
-    { "user": "user_analitica", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
-    { "user": "user_reclamos", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
-    { "user": "user_residuos", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
-    { "user": "guest", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" },
-    { "user": "user_cultura", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" }
+    {
+      "user": "user_reclamos",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "user_residuos",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "user_analitica",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "user_movilidad",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "user_cultura",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "user_emergencias",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
   ],
   "topic_permissions": [],
   "parameters": [],
   "global_parameters": [
-    { "name": "cluster_tags", "value": [] }
+    {
+      "name": "cluster_tags",
+      "value": []
+    },
+    {
+      "name": "internal_cluster_id",
+      "value": "rabbitmq-cluster-id-f49Vq7Lin7I2aYAXoIM2hA"
+    }
   ],
   "policies": [],
   "queues": [
-    { "name": "emergencias_alt", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "analitica_def", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-dead-letter-exchange": "citypass_dlx", "x-dead-letter-routing-key": "analitica.contingencia", "x-max-length": 1000, "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "analitica_alt", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "cultura_alt", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "analitica_dlx", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "cultura_dlx", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "movilidad_dlx", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "movilidad_def", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-dead-letter-exchange": "citypass_dlx", "x-dead-letter-routing-key": "movilidad.contingencia", "x-max-length": 1000, "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "residuos_alt", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "emergencias_def", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-dead-letter-exchange": "citypass_dlx", "x-dead-letter-routing-key": "emergencias.contingencia", "x-max-length": 1000, "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "reclamos_def", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-dead-letter-exchange": "citypass_dlx", "x-dead-letter-routing-key": "reclamos.contingencia", "x-max-length": 1000, "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "emergencias_dlx", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "reclamos_alt", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "movilidad_alt", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "cultura_def", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-dead-letter-exchange": "citypass_dlx", "x-dead-letter-routing-key": "cultura.contingencia", "x-max-length": 1000, "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "residuos_def", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-dead-letter-exchange": "citypass_dlx", "x-dead-letter-routing-key": "residuos.contingencia", "x-max-length": 1000, "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "residuos_dlx", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-    { "name": "reclamos_dlx", "vhost": "/", "durable": true, "auto_delete": false, "arguments": { "x-message-ttl": 3000, "x-overflow": "drop-head", "x-queue-type": "quorum" } },
-
-    { "name": "trace_all", "vhost": "/", "durable": true, "auto_delete": false,
+    {
+      "name": "analitica_def",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx",
+        "x-dead-letter-routing-key": "analitica.contingencia",
+        "x-max-length": 1000,
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "analitica_dlx",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "cultura_dlx",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "movilidad_dlx",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "movilidad_def",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx",
+        "x-dead-letter-routing-key": "movilidad.contingencia",
+        "x-max-length": 1000,
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "emergencias_def",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx",
+        "x-dead-letter-routing-key": "emergencias.contingencia",
+        "x-max-length": 1000,
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "reclamos_def",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx",
+        "x-dead-letter-routing-key": "reclamos.contingencia",
+        "x-max-length": 1000,
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "emergencias_dlx",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "cultura_def",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx",
+        "x-dead-letter-routing-key": "cultura.contingencia",
+        "x-max-length": 1000,
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "residuos_def",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "citypass_dlx",
+        "x-dead-letter-routing-key": "residuos.contingencia",
+        "x-max-length": 1000,
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "residuos_dlx",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "reclamos_dlx",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 15000,
+        "x-overflow": "drop-head",
+        "x-queue-type": "quorum"
+      }
+    },
+    {
+      "name": "trace_all",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
       "arguments": {
         "x-queue-type": "classic",
         "x-max-length": 10000,
@@ -114,31 +312,89 @@
     }
   ],
   "exchanges": [
-    { "name": "citypass_alt", "vhost": "/", "type": "topic", "durable": true, "auto_delete": false, "internal": false, "arguments": {} },
-    { "name": "citypass_def", "vhost": "/", "type": "topic", "durable": true, "auto_delete": false, "internal": false, "arguments": {} },
-    { "name": "citypass_dlx", "vhost": "/", "type": "topic", "durable": true, "auto_delete": false, "internal": false, "arguments": {} }
+    {
+      "name": "citypass_def",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "citypass_dlx",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
   ],
   "bindings": [
-    { "source": "citypass_alt", "vhost": "/", "destination": "analitica_alt", "destination_type": "queue", "routing_key": "#", "arguments": {} },
-    { "source": "citypass_alt", "vhost": "/", "destination": "cultura_alt", "destination_type": "queue", "routing_key": "#", "arguments": {} },
-    { "source": "citypass_alt", "vhost": "/", "destination": "emergencias_alt", "destination_type": "queue", "routing_key": "#", "arguments": {} },
-    { "source": "citypass_alt", "vhost": "/", "destination": "movilidad_alt", "destination_type": "queue", "routing_key": "#", "arguments": {} },
-    { "source": "citypass_alt", "vhost": "/", "destination": "reclamos_alt", "destination_type": "queue", "routing_key": "#", "arguments": {} },
-    { "source": "citypass_alt", "vhost": "/", "destination": "residuos_alt", "destination_type": "queue", "routing_key": "#", "arguments": {} },
-    { "source": "citypass_def", "vhost": "/", "destination": "analitica_def", "destination_type": "queue", "routing_key": "analitica.#", "arguments": {} },
-    { "source": "citypass_def", "vhost": "/", "destination": "cultura_def", "destination_type": "queue", "routing_key": "cultura.#", "arguments": {} },
-    { "source": "citypass_def", "vhost": "/", "destination": "emergencias_def", "destination_type": "queue", "routing_key": "emergencias.#", "arguments": {} },
-    { "source": "citypass_def", "vhost": "/", "destination": "movilidad_def", "destination_type": "queue", "routing_key": "movilidad.#", "arguments": {} },
-    { "source": "citypass_def", "vhost": "/", "destination": "reclamos_def", "destination_type": "queue", "routing_key": "reclamos.#", "arguments": {} },
-    { "source": "citypass_def", "vhost": "/", "destination": "residuos_def", "destination_type": "queue", "routing_key": "residuos.#", "arguments": {} },
-    { "source": "citypass_dlx", "vhost": "/", "destination": "analitica_dlx", "destination_type": "queue", "routing_key": "analitica.contingencia", "arguments": {} },
-    { "source": "citypass_dlx", "vhost": "/", "destination": "cultura_dlx", "destination_type": "queue", "routing_key": "cultura.contingencia", "arguments": {} },
-    { "source": "citypass_dlx", "vhost": "/", "destination": "emergencias_dlx", "destination_type": "queue", "routing_key": "emergencias.contingencia", "arguments": {} },
-    { "source": "citypass_dlx", "vhost": "/", "destination": "movilidad_dlx", "destination_type": "queue", "routing_key": "movilidad.contingencia", "arguments": {} },
-    { "source": "citypass_dlx", "vhost": "/", "destination": "reclamos_dlx", "destination_type": "queue", "routing_key": "reclamos.contingencia", "arguments": {} },
-    { "source": "citypass_dlx", "vhost": "/", "destination": "residuos_dlx", "destination_type": "queue", "routing_key": "residuos.contingencia", "arguments": {} },
-
-    { "source": "amq.rabbitmq.trace", "vhost": "/", "destination": "trace_all", "destination_type": "queue", "routing_key": "publish.#", "arguments": {} },
-    { "source": "amq.rabbitmq.trace", "vhost": "/", "destination": "trace_all", "destination_type": "queue", "routing_key": "deliver.#", "arguments": {} }
+    {
+      "source": "citypass_dlx",
+      "vhost": "/",
+      "destination": "analitica_dlx",
+      "destination_type": "queue",
+      "routing_key": "analitica.contingencia",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx",
+      "vhost": "/",
+      "destination": "cultura_dlx",
+      "destination_type": "queue",
+      "routing_key": "cultura.contingencia",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx",
+      "vhost": "/",
+      "destination": "emergencias_dlx",
+      "destination_type": "queue",
+      "routing_key": "emergencias.contingencia",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx",
+      "vhost": "/",
+      "destination": "movilidad_dlx",
+      "destination_type": "queue",
+      "routing_key": "movilidad.contingencia",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx",
+      "vhost": "/",
+      "destination": "reclamos_dlx",
+      "destination_type": "queue",
+      "routing_key": "reclamos.contingencia",
+      "arguments": {}
+    },
+    {
+      "source": "citypass_dlx",
+      "vhost": "/",
+      "destination": "residuos_dlx",
+      "destination_type": "queue",
+      "routing_key": "residuos.contingencia",
+      "arguments": {}
+    },
+    {
+      "source": "amq.rabbitmq.trace",
+      "vhost": "/",
+      "destination": "trace_all",
+      "destination_type": "queue",
+      "routing_key": "publish.#",
+      "arguments": {}
+    },
+    {
+      "source": "amq.rabbitmq.trace",
+      "vhost": "/",
+      "destination": "trace_all",
+      "destination_type": "queue",
+      "routing_key": "deliver.#",
+      "arguments": {}
+    }
   ]
 }
