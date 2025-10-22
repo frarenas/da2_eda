@@ -2,6 +2,7 @@ volumes:
   rabbit1_data:
   rabbit2_data:
   rabbit3_data:
+  postgres_data:
 
 networks:
   rabbitmq_net: {}   # <-- definir la red
@@ -94,3 +95,22 @@ services:
       - rabbitmq_net
     depends_on:
       - prometheus
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_DB: citypass_logs
+      POSTGRES_USER: citypass
+      POSTGRES_PASSWORD: citypass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U citypass -d citypass_logs"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - rabbitmq_net

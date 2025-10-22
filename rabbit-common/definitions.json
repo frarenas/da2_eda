@@ -149,6 +149,18 @@
   "policies": [],
   "queues": [
     {
+      "name": "trazabilidad",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "classic",
+        "x-max-length": 10000,
+        "x-overflow": "drop-head",
+        "x-message-ttl": 600000
+      }
+    },
+    {
       "name": "analitica_def",
       "vhost": "/",
       "durable": true,
@@ -297,18 +309,6 @@
         "x-overflow": "drop-head",
         "x-queue-type": "quorum"
       }
-    },
-    {
-      "name": "trace_all",
-      "vhost": "/",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {
-        "x-queue-type": "classic",
-        "x-max-length": 10000,
-        "x-overflow": "drop-head",
-        "x-message-ttl": 600000
-      }
     }
   ],
   "exchanges": [
@@ -332,69 +332,38 @@
     }
   ],
   "bindings": [
-    {
-      "source": "citypass_dlx",
-      "vhost": "/",
-      "destination": "analitica_dlx",
-      "destination_type": "queue",
-      "routing_key": "analitica.contingencia",
-      "arguments": {}
-    },
-    {
-      "source": "citypass_dlx",
-      "vhost": "/",
-      "destination": "cultura_dlx",
-      "destination_type": "queue",
-      "routing_key": "cultura.contingencia",
-      "arguments": {}
-    },
-    {
-      "source": "citypass_dlx",
-      "vhost": "/",
-      "destination": "emergencias_dlx",
-      "destination_type": "queue",
-      "routing_key": "emergencias.contingencia",
-      "arguments": {}
-    },
-    {
-      "source": "citypass_dlx",
-      "vhost": "/",
-      "destination": "movilidad_dlx",
-      "destination_type": "queue",
-      "routing_key": "movilidad.contingencia",
-      "arguments": {}
-    },
-    {
-      "source": "citypass_dlx",
-      "vhost": "/",
-      "destination": "reclamos_dlx",
-      "destination_type": "queue",
-      "routing_key": "reclamos.contingencia",
-      "arguments": {}
-    },
-    {
-      "source": "citypass_dlx",
-      "vhost": "/",
-      "destination": "residuos_dlx",
-      "destination_type": "queue",
-      "routing_key": "residuos.contingencia",
-      "arguments": {}
-    },
-    {
-      "source": "amq.rabbitmq.trace",
-      "vhost": "/",
-      "destination": "trace_all",
-      "destination_type": "queue",
-      "routing_key": "publish.#",
-      "arguments": {}
-    },
-    {
-      "source": "amq.rabbitmq.trace",
-      "vhost": "/",
-      "destination": "trace_all",
-      "destination_type": "queue",
-      "routing_key": "deliver.#",
-      "arguments": {}
-    }
-  ]
+  { "source": "citypass_dlx", "vhost": "/", "destination": "analitica_dlx",  "destination_type": "queue", "routing_key": "analitica.contingencia",  "arguments": {} },
+  { "source": "citypass_dlx", "vhost": "/", "destination": "cultura_dlx",    "destination_type": "queue", "routing_key": "cultura.contingencia",    "arguments": {} },
+  { "source": "citypass_dlx", "vhost": "/", "destination": "emergencias_dlx","destination_type": "queue", "routing_key": "emergencias.contingencia","arguments": {} },
+  { "source": "citypass_dlx", "vhost": "/", "destination": "movilidad_dlx",  "destination_type": "queue", "routing_key": "movilidad.contingencia",  "arguments": {} },
+  { "source": "citypass_dlx", "vhost": "/", "destination": "reclamos_dlx",   "destination_type": "queue", "routing_key": "reclamos.contingencia",   "arguments": {} },
+  { "source": "citypass_dlx", "vhost": "/", "destination": "residuos_dlx",   "destination_type": "queue", "routing_key": "residuos.contingencia",   "arguments": {} },
+
+  { "source": "citypass_def", "vhost": "/", "destination": "movilidad_def",  "destination_type": "queue", "routing_key": "movilidad.colectivo",     "arguments": {} },
+  { "source": "citypass_def", "vhost": "/", "destination": "analitica_def",  "destination_type": "queue", "routing_key": "notificacion.general",     "arguments": {} },
+  { "source": "citypass_def", "vhost": "/", "destination": "cultura_def",    "destination_type": "queue", "routing_key": "notificacion.general",     "arguments": {} },
+  { "source": "citypass_def", "vhost": "/", "destination": "emergencias_def","destination_type": "queue", "routing_key": "notificacion.general",     "arguments": {} },
+  { "source": "citypass_def", "vhost": "/", "destination": "movilidad_def",  "destination_type": "queue", "routing_key": "notificacion.general",     "arguments": {} },
+  { "source": "citypass_def", "vhost": "/", "destination": "reclamos_def",   "destination_type": "queue", "routing_key": "notificacion.general",     "arguments": {} },
+  { "source": "citypass_def", "vhost": "/", "destination": "residuos_def",   "destination_type": "queue", "routing_key": "notificacion.general",     "arguments": {} },
+
+  { "source": "citypass_def", "vhost": "/", "destination": "movilidad_def",  "destination_type": "queue", "routing_key": "movilidad.reporte",        "arguments": {} },
+  { "source": "citypass_def", "vhost": "/", "destination": "analitica_def",  "destination_type": "queue", "routing_key": "movilidad.reporte",        "arguments": {} },
+  {
+    "source": "amq.rabbitmq.trace",
+    "vhost": "/",
+    "destination": "trazabilidad",
+    "destination_type": "queue",
+    "routing_key": "publish.#",
+    "arguments": {}
+  },
+  {
+    "source": "amq.rabbitmq.trace",
+    "vhost": "/",
+    "destination": "trazabilidad",
+    "destination_type": "queue",
+    "routing_key": "deliver.#",
+    "arguments": {}
+  }
+]
 }
