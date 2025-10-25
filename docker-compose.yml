@@ -1,6 +1,5 @@
 volumes:
   rabbit1_data:
-  postgres_data:
 
 networks:
   rabbitmq_net: {}   # <-- definir la red
