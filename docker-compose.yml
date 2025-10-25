@@ -1,7 +1,5 @@
 volumes:
   rabbit1_data:
-  rabbit2_data:
-  rabbit3_data:
   postgres_data:
 
 networks:
@@ -27,90 +25,5 @@ services:
       interval: 5s
       timeout: 3s
       retries: 30
-    networks:
-      - rabbitmq_net     # <-- conectar a la red
-
-  rabbit2:
-    image: rabbitmq:4-management
-    container_name: rabbit2
-    hostname: rabbit2
-    environment:
-      RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
-    volumes:
-      - rabbit2_data:/var/lib/rabbitmq
-      - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
-      - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
-    ports:
-      - "15673:15672"
-      - "5673:5672"
-      - "15693:15692"
-    depends_on:
-      - rabbit1
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-    networks:
-      - rabbitmq_net
-
-  rabbit3:
-    image: rabbitmq:4-management
-    container_name: rabbit3
-    hostname: rabbit3
-    environment:
-      RABBITMQ_ERLANG_COOKIE: "RRKYXMQLSXURFZSUXFFU"
-    volumes:
-      - rabbit3_data:/var/lib/rabbitmq
-      - ./rabbit-common/definitions.json:/etc/rabbitmq/definitions.json:ro
-      - ./rabbit-common/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
-    ports:
-      - "15674:15672"
-      - "5674:5672"
-      - "15694:15692"
-    depends_on:
-      - rabbit1
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-    networks:
-      - rabbitmq_net
-
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    volumes:
-      - ./prometheus-config:/etc/prometheus
-    ports:
-      - "9090:9090"
-    networks:
-      - rabbitmq_net
-    depends_on:
-      - rabbit1
-      - rabbit2
-      - rabbit3
-
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    networks:
-      - rabbitmq_net
-    depends_on:
-      - prometheus
-
-  postgres:
-    image: postgres:16
-    container_name: postgres
-    environment:
-      POSTGRES_DB: citypass_logs
-      POSTGRES_USER: citypass
-      POSTGRES_PASSWORD: citypass
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U citypass -d citypass_logs"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
     networks:
       - rabbitmq_net
