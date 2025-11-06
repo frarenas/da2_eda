@@ -8,13 +8,14 @@ resource "aws_ecs_task_definition" "rabbitmq" {
   cpu                      = "1024" # 1 vCPU
   memory                   = "2048" # 2 GB
 
-  execution_role_arn = "arn:aws:iam::767397732475:role/LabRole"
+  # Use an existing role ARN via variable, or create one by enabling var.create_task_execution_role
+  execution_role_arn = var.create_task_execution_role ? aws_iam_role.ecs_task_execution[0].arn : (var.execution_role_arn != "" ? var.execution_role_arn : "")
 
   # Definición del contenedor
   container_definitions = jsonencode([
     {
       name      = "rabbitmq"
-      image     = "rabbitmq:4-management" # Usar la imagen base con plugin de management
+      image     = "rabbitmq:3-management" # Use a known RabbitMQ image with management plugin
       essential = true
       portMappings = [
         { containerPort = 5672, hostPort = 5672, protocol = "tcp" },   # AMQP
@@ -22,23 +23,29 @@ resource "aws_ecs_task_definition" "rabbitmq" {
         { containerPort = 25672, hostPort = 25672, protocol = "tcp" }  # Erlang Clustering
       ]
 
-      command = [
-        "sh",
-        "-c",
-        "export RABBITMQ_NODENAME=rabbit@$(hostname -i) && /usr/local/bin/docker-entrypoint.sh rabbitmq-server"
-      ]
+      # Use the image default entrypoint/command. Setting the nodename to the
+      # container IP (as we did previously) caused Erlang distribution errors
+      # during the prelaunch phase (nodistribution). The default startup works
+      # for a single-node setup; for clustering we'll change this later.
+
+      # Send container logs to CloudWatch for easier debugging. Ensure the execution role has permissions.
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/rabbitmq"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "rabbitmq"
+        }
+      }
 
       # VARIABLES DE ENTORNO PARA CLUSTERING
       environment = [
-        # Se pasa la cookie directamente para evitar Secrets Manager/IAM
+        # Erlang cookie for cluster/authentication. For single-node debugging a
+        # hard-coded value is acceptable; when scaling, use Secrets Manager.
         { name = "RABBITMQ_ERLANG_COOKIE", value = "RRKYXMQLSXURFZSUXFFU" },
-        # Forzamos a RabbitMQ a usar las IPs en lugar del hostname (necesario sin Service Discovery)
-        #{ name = "RABBITMQ_USE_LONGNAME", value = "false" },
-        # El nombre del nodo debe coincidir con el hostname, que en Fargate es la IP privada.
-        # RabbitMQ lo detectará automáticamente.
-        #{ name = "RABBITMQ_NODENAME", value = "rabbit@$(hostname -s)" },
-        # Deshabilitamos la detección de pares para forzar el clustering manual
-        #{ name = "RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS", value = "-rabbit cluster_formation classic_config -rabbit cluster_formation.classic_config.nodes '[\"rabbit@10.0.2.33\", \"rabbit@10.0.4.171\", \"rabbit@10.0.2.147\"]'" }
+        # Create a management user so the web UI is accessible for debugging
+        { name = "RABBITMQ_DEFAULT_USER", value = var.rabbitmq_admin_user },
+        { name = "RABBITMQ_DEFAULT_PASS", value = var.rabbitmq_admin_pass }
       ]
     }
   ])
@@ -49,14 +56,22 @@ resource "aws_ecs_service" "rabbitmq" {
   name                = "rabbitmq-service"
   cluster             = aws_ecs_cluster.rabbitmq_cluster.id # Usar el nombre de recurso de ecs.tf
   task_definition     = aws_ecs_task_definition.rabbitmq.arn
-  desired_count       = 3 # Clúster de 3 nodos
+  desired_count       = 1 # Start with 1 replica to validate the task; scale to 3 after verification
   launch_type         = "FARGATE"
   scheduling_strategy = "REPLICA"
 
   # Configuración de red para Fargate
   network_configuration {
-    security_groups  = [aws_security_group.rabbitmq.id]                   # Usar el SG de RabbitMQ de security_groups.tf
-    subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id] # Usar subredes privadas
-    assign_public_ip = false                                              # Las tareas en subredes privadas no necesitan IP pública. Usarán NAT GW para salida.
+    security_groups = [aws_security_group.rabbitmq.id] # Usar el SG de RabbitMQ de security_groups.tf
+    # Para que las tareas sean accesibles públicamente, las ubicamos en subredes públicas
+    subnets = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+    # Asignar IP pública a las tareas Fargate para acceso directo desde Internet
+    assign_public_ip = true
+  }
+  # Register the management port (15672) with the ALB target group
+  load_balancer {
+    target_group_arn = aws_lb_target_group.rabbit_tg.arn
+    container_name   = "rabbitmq"
+    container_port   = 15672
   }
 }

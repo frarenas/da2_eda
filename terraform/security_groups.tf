@@ -72,6 +72,31 @@ resource "aws_security_group" "rabbitmq" {
     protocol        = "tcp"
     security_groups = [aws_security_group.metrics.id]
   }
+  # Allow ALB to reach RabbitMQ management UI (15672)
+  ingress {
+    description     = "Allow ALB to access RabbitMQ Management UI"
+    from_port       = 15672
+    to_port         = 15672
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+
+  # Public access: allow management UI and AMQP directly from the internet
+  ingress {
+    description = "Public access to RabbitMQ Management UI"
+    from_port   = 15672
+    to_port     = 15672
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Public access to RabbitMQ AMQP port"
+    from_port   = 5672
+    to_port     = 5672
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   # Regla de Salida
   egress {
