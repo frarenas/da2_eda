@@ -11,7 +11,7 @@ locals {
   raw_definitions_json = file("../rabbit-common/definitions.json")
   # Also load a rabbitmq.conf from the rabbit-common folder for container config
   raw_rabbitmq_conf = file("../rabbit-common/rabbitmq.conf")
-  
+
   # 2. Eliminamos saltos de línea si alguna parte se usara como una variable aplanada.
   rabbitmq_definitions_json = replace(replace(replace(local.raw_definitions_json, "\n", ""), "\r", ""), "\t", "")
 }
@@ -139,7 +139,7 @@ resource "aws_ecs_task_definition" "rabbitmq" {
   container_definitions = jsonencode([
     {
       name      = "rabbitmq-single",
-      image     = "rabbitmq:3-management",
+      image     = "rabbitmq:4-management",
       essential = true,
       # TRUCO: El comando usa el contenido aplanado del archivo definitions.json.
       # Nota la necesidad de las comillas simples '...' para el string JSON en el shell.
@@ -155,6 +155,13 @@ resource "aws_ecs_task_definition" "rabbitmq" {
           value = "SECRETSIMPLECOOKIE"
         }
       ],
+      healthCheck = {
+        command    = ["CMD-SHELL", "rabbitmq-diagnostics -q status || exit 1"]
+        interval   = 30
+        timeout    = 5
+        retries    = 5
+        startPeriod = 60
+      },
       portMappings = [
         {
           containerPort = 5672,

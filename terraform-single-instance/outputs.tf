@@ -15,7 +15,7 @@ output "cloudwatch_log_group" {
 
 output "how_to_get_task_public_ip_example" {
   description = "Ejemplo de comando AWS CLI para obtener la IP pública de la tarea (ejecutar localmente una vez desplegado)."
-  value = <<EOF
+  value       = <<EOF
 # List tasks for the service and get the task ARN
 TASK_ARN=$(aws ecs list-tasks --cluster ${aws_ecs_cluster.citypass.id} --service-name ${aws_ecs_service.rabbitmq.name} --query 'taskArns[0]' --output text)
 # Describe the task to get the ENI
