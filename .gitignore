@@ -1,2 +1,13 @@
 /haproxy
 *.zip
+
+# Terraform local files
+/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform.lock.hcl
+
+# AWS credentials
+*.pem
+.aws/credentials
