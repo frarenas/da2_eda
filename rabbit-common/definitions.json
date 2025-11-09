@@ -443,6 +443,38 @@
     "destination_type": "queue",
     "routing_key": "reclamos.cultura.#",
     "arguments": {}
+  },
+  {
+    "source": "citypass_def",
+    "vhost": "/",
+    "destination": "cultura_def",
+    "destination_type": "queue",
+    "routing_key": "emergencias.inundacion.alerta",
+    "arguments": {}
+  },
+  {
+    "source": "citypass_def",
+    "vhost": "/",
+    "destination": "movilidad_def",
+    "destination_type": "queue",
+    "routing_key": "emergencias.inundacion.alerta",
+    "arguments": {}
+  },
+  {
+    "source": "citypass_def",
+    "vhost": "/",
+    "destination": "residuos_def",
+    "destination_type": "queue",
+    "routing_key": "cultura.evento.cancelado",
+    "arguments": {}
+  },
+  {
+    "source": "citypass_def",
+    "vhost": "/",
+    "destination": "residuos_def",
+    "destination_type": "queue",
+    "routing_key": "reclamos.deshechos.creado",
+    "arguments": {}
   }
 ]
 
